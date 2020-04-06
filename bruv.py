@@ -37,7 +37,7 @@ def takeCommand():
     with sr.Microphone() as source: #context manager
         print("Listening..")
         #r.pause_threshold = 1
-        r.adjust_for_ambient_noise(source) #reduce noise
+        r.adjust_for_ambient_noise(source) #reduce unwanted noise 
         audio = r.listen(source)
         #listen functio will listen to our commmand(input)
         #print(audio) 
