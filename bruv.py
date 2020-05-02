@@ -5,6 +5,7 @@ import wikipedia  #pip install wikipedia
 import webbrowser
 import os #for using system files
 import random
+import smtplib
 
 #print(sr.__version__)
 engine = pyttsx3.init('sapi5') # sapi5 is a driver for windows
@@ -54,6 +55,16 @@ def takeCommand():
 
     return query
 
+def sendEmail(to,content):
+    server = smtplib.SMTP('smtp.gmail.com',587)
+    server.ehlo()
+    server.starttls()
+    server.login("sejalc230@gmail.com","your-password")
+    server.sendmail("friend_email@gmail.com",to,content)
+    server.close()
+
+
+
 #Main program
 if __name__ == "__main__":
     wishMe()
@@ -81,7 +92,25 @@ if __name__ == "__main__":
             #print(songs)
             r=random.randint(0,len(songs)-1) #generate random song from the list
             os.startfile(os.path.join(music_dir,songs[r]))
-
         
+        elif 'the time' in query:
+            strTime = datetime.datetime.now().strftime("%H:%M:%S")
+            speak(f"The time is {strTime}")
+
+        elif 'open visual studio code' in query:
+            code_path="C:\\Users\\Admin\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe"
+            os.startfile(code_path) 
+
+        elif 'send email to friend' in query:
+            try:
+                speak("What should I say?")
+                content=takeCommand()
+                to="friend"
+                sendEmail(to,content)
+                speak("Your email has been sent!")
+            except Exception as e:
+                print(e)
+                speak("Sorry, couldn't send the email. Try Again!")
+
 
 
